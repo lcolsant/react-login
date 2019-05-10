@@ -22,6 +22,7 @@ import './FormValidator.css';
             nameError: "",
             emailError: "",
             passwordError: "",
+            isValid: false,
         }
         
         this.initialState = this.state;
@@ -33,8 +34,8 @@ import './FormValidator.css';
     
     handleSubmit(event){
         event.preventDefault();
-        const isValid = this.validate();
-        if(isValid){
+        // const isValid = this.validate();
+        if(this.state.isValid){
 
             console.log(this.state);
             this.setState(this.initialState)
@@ -51,22 +52,68 @@ import './FormValidator.css';
         });
     }
 
-    validate(){
-        let isValid = true;
+    validate(event){
         
-        if(!this.state.name){
-            isValid = false;
-            this.setState({nameError:'You must enter a name'});
-        }else if(!this.state.email.includes("@")){
-            isValid = false;
-            this.setState({emailError:'Please enter a valid email'});
-        }else if(this.state.password.length<3){
-            isValid = false;
-            this.setState({passwordError:'Password must be longer than 3 characters'});
+        let nameValid = false;
+        let emailValid = false;
+        let passwordValid = false;
+        
+        if(this.state.name){
+            nameValid = true;
+        }
+        
+        if(this.state.email.includes("@")){
+            emailValid = true;
+        }
+        
+        if(this.state.password.length>3){
+            passwordValid = true;
+        }
+        console.log(event.target.name);
 
+        switch(event.target.name){
+
+            case 'name':
+                if(nameValid){
+                    this.setState({nameError:''});
+                    console.log('in nameValidator+')
+                    break;
+                }else{
+                    this.setState({nameError:'You must enter a name'});
+                    console.log('in nameValidator-')
+                    break;
+                }
+            case 'email':
+                if(emailValid){
+                    this.setState({emailError:''});
+                    console.log('in emailValidator+')
+                    break;
+                }else{
+                    this.setState({emailError:'Please enter a valid email'});
+                    console.log('in emailValidator-')
+                    break;
+                }
+
+            case 'password':
+                if(passwordValid){
+                    this.setState({passwordError:''})
+                    console.log('in passwordValidator+')
+                    break;
+                }else{
+                    this.setState({passwordError:'Password must be longer than 3 characters'});
+                    console.log('in passwordValidator-')
+                    break;
+                }
         }
 
-        return isValid;
+
+        if(nameValid && emailValid && passwordValid){
+            this.state.isValid = true;
+        }else{
+            this.state.isValid = false;
+        }
+
+        return this.state.isValid;
         
     }
     
@@ -89,6 +136,8 @@ import './FormValidator.css';
                         placeholder="email"
                         value={this.state.email}
                         onChange={this.handleChange}
+                        onBlur={this.validate}
+
                     />
                 </div>
                 <div className='errorMsg'>{this.state.emailError}</div>
@@ -99,6 +148,8 @@ import './FormValidator.css';
                         type="password"
                         value={this.state.password}
                         onChange={this.handleChange}
+                        onBlur={this.validate}
+
                     />
                 </div>
                 <div className='errorMsg'>{this.state.passwordError}</div>
@@ -106,6 +157,7 @@ import './FormValidator.css';
                     <input
                         type="submit"
                         value="submit"
+                        disabled={!this.state.isValid}
                     />
                 </div>
 
