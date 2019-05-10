@@ -19,19 +19,28 @@ import './FormValidator.css';
             name: "",
             email: "",
             password: "",
+            nameError: "",
+            emailError: "",
+            passwordError: "",
         }
         
         this.initialState = this.state;
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.validate = this.validate.bind(this);
     }
     
     
     handleSubmit(event){
         event.preventDefault();
-        console.log('form submitted!');
-        this.setState(this.initialState)
-  
+        const isValid = this.validate();
+        if(isValid){
+
+            console.log(this.state);
+            this.setState(this.initialState)
+        }else{
+            console.log('invalid input')
+        }
         
     }
 
@@ -40,6 +49,25 @@ import './FormValidator.css';
         this.setState({
             [event.target.name]:event.target.value
         });
+    }
+
+    validate(){
+        let isValid = true;
+        
+        if(!this.state.name){
+            isValid = false;
+            this.setState({nameError:'You must enter a name'});
+        }else if(!this.state.email.includes("@")){
+            isValid = false;
+            this.setState({emailError:'Please enter a valid email'});
+        }else if(this.state.password.length<3){
+            isValid = false;
+            this.setState({passwordError:'Password must be longer than 3 characters'});
+
+        }
+
+        return isValid;
+        
     }
     
     render(){
@@ -51,8 +79,10 @@ import './FormValidator.css';
                         placeholder="name"
                         value={this.state.name}
                         onChange={this.handleChange}
+                        onBlur={this.validate}
                     />
                 </div>
+                <div className='errorMsg'>{this.state.nameError}</div>
                 <div> 
                     <input
                         name="email"
@@ -61,6 +91,7 @@ import './FormValidator.css';
                         onChange={this.handleChange}
                     />
                 </div>
+                <div className='errorMsg'>{this.state.emailError}</div>
                 <div>
                     <input
                         name="password"
@@ -70,6 +101,7 @@ import './FormValidator.css';
                         onChange={this.handleChange}
                     />
                 </div>
+                <div className='errorMsg'>{this.state.passwordError}</div>
                 <div>
                     <input
                         type="submit"
