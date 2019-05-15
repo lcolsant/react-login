@@ -3,12 +3,6 @@ import './FormValidator.css';
 
 
 
-// const initialState = {
-//     name: "",
-//     email: "",
-//     password: "",
-//   };
-
   class FormValidator extends Component{
     
     
@@ -24,10 +18,7 @@ import './FormValidator.css';
                 emailError:'',
                 passwordError:'',
             },
-            // nameError: "",
-            // emailError: "",
-            // passwordError: "",
-            isValid: false,
+            // isValid: false,
         }
         
         this.initialState = this.state;
@@ -53,69 +44,41 @@ import './FormValidator.css';
     handleChange(e){
         const {name, value} = e.target
 
-        this.setState({
-            [name]:value,
-        });
-        
-
         let formErrors = {...this.state.formErrors}
         
-        console.log(value)
-        console.log(value.length)
-
-        let nameValid = false;
-        let emailValid = false;
-        let passwordValid = false;
-        
-        if(this.state.name){
-            nameValid = true;
-        }
-        
-        if(this.state.email.includes("@")){
-            emailValid = true;
-        }
-        
-        if(this.state.password.length>3){
-            passwordValid = true;
-        }
         console.log(name);
-
+        console.log(value)
 
         switch(name){
 
             case 'name':
-                if(nameValid){
-                    // this.setState({nameError:''});
+                if(value){
                     formErrors.nameError = ''
                     console.log('in nameValidator+')
                     break;
                 }else{
-                    // this.setState({nameError:'You must enter a name'});
                     formErrors.nameError = 'You must enter a name'
                     console.log('in nameValidator-')
                     break;
                 }
             case 'email':
-                if(emailValid){
-                    // this.setState({emailError:''});
+                if(value.includes('@')){
                     formErrors.emailError = '';
                     console.log('in emailValidator+')
                     break;
                 }else{
-                    // this.setState({emailError:'Please enter a valid email'});
                     formErrors.emailError = 'Please enter a valid email'; 
                     console.log('in emailValidator-')
                     break;
                 }
 
             case 'password':
-                if(passwordValid){
-                    // this.setState({passwordError:''})
+                console.log(`password length: ${value.length}`)
+                if(value.length>3){
                     formErrors.passwordError = '';
                     console.log('in passwordValidator+')
                     break;
                 }else{
-                    // this.setState({passwordError:'Password must be longer than 3 characters'});
                     formErrors.passwordError = 'Password must be longer than 3 characters';
                     console.log('in passwordValidator-')
                     break;
@@ -124,10 +87,12 @@ import './FormValidator.css';
                 break;
         }
 
-
+        
         this.setState({
+            [name]:value,
             formErrors,
-        });
+        }, console.log(this.state));
+
 
     }
 
@@ -138,53 +103,45 @@ import './FormValidator.css';
 
         let valid = true;
 
-        // validate form errors being empty
         Object.values(formErrors).forEach(val => {
           val.length > 0 && (valid = false);
         });
       
-        // validate the form was filled out
         Object.values(rest).forEach(val => {
           val === '' && (valid = false);
         });
       
         return valid;
 
-        // if(nameValid && emailValid && passwordValid){
-        //     this.state.isValid = true;
-        // }else{
-        //     this.state.isValid = false;
-        // }
-
-        // return this.state.isValid;
     }
 
-    
-
     render(){
+
+        const {formErrors} = this.state
+
         return(
-            <form onSubmit={this.handleSubmit} >
-                <div>
+            <form onSubmit={this.handleSubmit} noValidate >
+                <div >
                     <label htmlFor="Name">Name</label>
                     <input
+                        className={formErrors.nameError.length > 0 ? "error" : null}
                         type="text"
                         name="name"
                         placeholder="name"
                         value={this.state.name}
                         onChange={this.handleChange}
-                        // onBlur={this.validate}
                     />
                 </div>
                 <div className='errorMsg'>{this.state.formErrors.nameError}</div>
                 <div> 
                     <label htmlFor="Email">Email</label>
                     <input
+                        className={formErrors.emailError.length > 0 ? "error" : null}
                         type="text"
                         name="email"
                         placeholder="email"
                         value={this.state.email}
                         onChange={this.handleChange}
-                        // onBlur={this.validate}
 
                     />
                 </div>
@@ -192,12 +149,12 @@ import './FormValidator.css';
                 <div>
                     <label htmlFor="Password">Password</label>
                     <input
+                        className={formErrors.passwordError.length > 0 ? "error" : null}
                         type="password"
                         name="password"
                         placeholder="password"
                         value={this.state.password}
                         onChange={this.handleChange}
-                        // onBlur={this.validate}
 
                     />
                 </div>
@@ -206,7 +163,6 @@ import './FormValidator.css';
                     <input
                         type="submit"
                         value="submit"
-                        // disabled={!this.state.isValid}
                     />
                 </div>
 
