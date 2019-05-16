@@ -1,4 +1,6 @@
 
+/* #658E9C */
+
 
 .wrapper {
     height: 100vh;
@@ -28,6 +30,16 @@
     border: 1px solid red;
 }
 
+.btnSubmit {
+    background-color: #A9ACA9;
+    border: 1px solid #A9ACA9;
+    
+}
+.btnSubmit:hover {
+    background-color: #8CBA80;
+    border: 1px solid #8CBA80;
+    
+}
 
 
 

@@ -167,7 +167,7 @@ const emailRegex = new RegExp(
                                 </div>
                                 <div className='errorMsg'>{this.state.formErrors.passwordError}</div>
                                 <div>
-                                    <Button variant="primary" type="submit">Submit</Button>
+                                    <Button className='btnSubmit' type="submit">Submit</Button>
                                 </div>
                             </form>
                         </Col>
