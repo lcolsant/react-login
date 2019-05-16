@@ -16,12 +16,12 @@ const emailRegex = new RegExp(
             name: "",
             email: "",
             password: "",
+            // isValid: false,
             formErrors: {
                 nameError:'',
                 emailError:'',
                 passwordError:'',
             },
-            // isValid: false,
         }
         
         this.initialState = this.state;
@@ -31,12 +31,13 @@ const emailRegex = new RegExp(
     }
     
     
-    handleSubmit(event){
-        event.preventDefault();
+    handleSubmit(e){
+        e.preventDefault();
         const isValid = this.validate(this.state);
         if(isValid){
-
+            // this.setState({isValid: true});
             console.log(this.state);
+            console.log(`Welcome, ${this.state.name}.  You have logged in successfully.`)
             this.setState(this.initialState)
         }else{
             console.log('invalid input')
@@ -121,13 +122,15 @@ const emailRegex = new RegExp(
     render(){
 
         const {formErrors} = this.state
+        // const welcomeMsg = <div>Welcome, {this.state.name}. You have logged in successfully!</div>
 
         return(
             <Container className="wrapper" fluid={true}>
-                <Container className="formContainer">
+                <Container className="form-wrapper form-wrapper-width">
                     <Row>
                         <Col>
                             <form className="m-4" onSubmit={this.handleSubmit} noValidate >
+                                <h3>Login</h3>
                                 <div >
                                     {/* <label htmlFor="Name">Name: </label> */}
                                     <input
@@ -169,7 +172,9 @@ const emailRegex = new RegExp(
                                 <div>
                                     <Button className='btnSubmit' type="submit">Submit</Button>
                                 </div>
+                                <a href="/"> <small>Don't have an account? Sign up</small></a>
                             </form>
+                            {/* {this.state.isValid ? welcomeMsg : ""} */}
                         </Col>
                     </Row>
                 </Container>
