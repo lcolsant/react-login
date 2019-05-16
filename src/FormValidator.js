@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import './FormValidator.css';
+import { Button, Container, Row, Col } from 'react-bootstrap';
 
-
+const emailRegex = new RegExp(
+    /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
+  );
 
   class FormValidator extends Component{
     
@@ -62,7 +65,7 @@ import './FormValidator.css';
                     break;
                 }
             case 'email':
-                if(value.includes('@')){
+                if(emailRegex.test(value)){
                     formErrors.emailError = '';
                     console.log('in emailValidator+')
                     break;
@@ -120,53 +123,57 @@ import './FormValidator.css';
         const {formErrors} = this.state
 
         return(
-            <form onSubmit={this.handleSubmit} noValidate >
-                <div >
-                    <label htmlFor="Name">Name</label>
-                    <input
-                        className={formErrors.nameError.length > 0 ? "error" : null}
-                        type="text"
-                        name="name"
-                        placeholder="name"
-                        value={this.state.name}
-                        onChange={this.handleChange}
-                    />
-                </div>
-                <div className='errorMsg'>{this.state.formErrors.nameError}</div>
-                <div> 
-                    <label htmlFor="Email">Email</label>
-                    <input
-                        className={formErrors.emailError.length > 0 ? "error" : null}
-                        type="text"
-                        name="email"
-                        placeholder="email"
-                        value={this.state.email}
-                        onChange={this.handleChange}
+            <Container className="wrapper" fluid={true}>
+                <Container className="formContainer">
+                    <Row>
+                        <Col>
+                            <form className="m-4" onSubmit={this.handleSubmit} noValidate >
+                                <div >
+                                    {/* <label htmlFor="Name">Name: </label> */}
+                                    <input
+                                        className={formErrors.nameError.length > 0 ? "error" : null}
+                                        type="text"
+                                        name="name"
+                                        placeholder="name"
+                                        value={this.state.name}
+                                        onChange={this.handleChange}
+                                    />
+                                </div>
+                                <div className='errorMsg'>{this.state.formErrors.nameError}</div>
+                                <div> 
+                                    {/* <label htmlFor="Email">Email: </label> */}
+                                    <input
+                                        className={formErrors.emailError.length > 0 ? "error" : null}
+                                        type="text"
+                                        name="email"
+                                        placeholder="email"
+                                        value={this.state.email}
+                                        onChange={this.handleChange}
 
-                    />
-                </div>
-                <div className='errorMsg'>{this.state.formErrors.emailError}</div>
-                <div>
-                    <label htmlFor="Password">Password</label>
-                    <input
-                        className={formErrors.passwordError.length > 0 ? "error" : null}
-                        type="password"
-                        name="password"
-                        placeholder="password"
-                        value={this.state.password}
-                        onChange={this.handleChange}
+                                    />
+                                </div>
+                                <div className='errorMsg'>{this.state.formErrors.emailError}</div>
+                                <div>
+                                    {/* <label htmlFor="Password">Password: </label> */}
+                                    <input
+                                        className={formErrors.passwordError.length > 0 ? "error" : null}
+                                        type="password"
+                                        name="password"
+                                        placeholder="password"
+                                        value={this.state.password}
+                                        onChange={this.handleChange}
 
-                    />
-                </div>
-                <div className='errorMsg'>{this.state.formErrors.passwordError}</div>
-                <div>
-                    <input
-                        type="submit"
-                        value="submit"
-                    />
-                </div>
-
-            </form>
+                                    />
+                                </div>
+                                <div className='errorMsg'>{this.state.formErrors.passwordError}</div>
+                                <div>
+                                    <Button variant="primary" type="submit">Submit</Button>
+                                </div>
+                            </form>
+                        </Col>
+                    </Row>
+                </Container>
+            </Container>
         );
     }
 }

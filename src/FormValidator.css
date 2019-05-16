@@ -1,3 +1,23 @@
+
+
+.wrapper {
+    height: 100vh;
+    width: 100vw;
+    background-color: #A9ACA9;
+}
+
+
+.formContainer {
+    border: 1px solid grey;
+    padding: 10px;
+    margin-top: 20px;
+    border-radius: 5px;
+    background-color: #28536B;
+    color: #A9ACA9;
+    /* width: 40%; */
+    
+}
+
 .errorMsg {
 
     color:red;
@@ -7,3 +27,7 @@
 .error {
     border: 1px solid red;
 }
+
+
+
+
